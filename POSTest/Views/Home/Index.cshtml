@@ -1,0 +1,139 @@
+﻿
+@model List<POSTest.NewFolder.Item> ;
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="page-header d-md-flex justify-content-between">
+    <div>
+        <h3>Users</h3>
+        <nav aria-label="breadcrumb" class="d-flex align-items-start">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-action="index" asp-controller="home">Items Management</a>
+                </li>
+            </ol>
+        </nav>
+    </div>
+    <div class="mt-2 mt-md-0">
+        <a href="#" class="btn btn-success popup" data-toggle="modal" data-url="Home/CreateEdit" data-target="#mdlNew" title="Add new item">Add new item</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="user-list" class="table table-lg">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Sizes</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+
+                                    <td>
+                                        <a href="#">
+                                            <figure class="avatar avatar-sm mr-2">
+                                                <img src="~/Images/@item.Picture"
+                                                     class="rounded-circle" alt="avatar">
+                                            </figure>
+                                            @item.Name
+                                        </a>
+                                    </td>
+                                    <td>@item.Price BHD</td>
+                                    <td>
+                                        @item.Sizes.Count()
+                                    </td>
+
+
+
+                                    <td class="text-right">
+                                        <div class="dropdown">
+                                            <a href="#" data-toggle="dropdown"
+                                               class="btn btn-floating"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                <i class="ti-more-alt"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                @*@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "dropdown-item text-success" })*@
+
+                                                <a href="#" class="dropdown-item text-success popup" data-toggle="modal" data-url="Home/CreateEdit?Id='@item.Id'" data-target="#mdlNew" title="Edite Item">Edite</a>
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "dropdown-item text-danger" })
+                                                @*<a href="#" class="dropdown-item text-success">Edit</a>
+        <a href="#" class="dropdown-item text-danger">Delete</a>*@
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<
+
+
+
+<div id="mdlNew" class="modal fade modal-item" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+    </div>
+</div>
+
+
+<script>
+
+
+    (function ($) {
+        function Index() {
+            var $this = this;
+            function initialize() {
+
+                $(".popup").on('click', function (e) {
+                    modelPopup(this);
+                });
+
+                function modelPopup(reff) {
+                    var url = $(reff).data('url');
+
+                    $.get(url).done(function (data) {
+                     
+                       
+                        $('#mdlNew').find(".modal-dialog").html(data);
+                        $('#mdlNew > .modal', data).show();
+                    });
+
+                }
+            }
+
+            $this.init = function () {
+                initialize();
+            };
+        }
+        $(function () {
+            var self = new Index();
+            self.init();
+        });
+    }(jQuery));
+</script>
